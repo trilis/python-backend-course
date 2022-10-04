@@ -16,9 +16,11 @@ def main():
             commands = input().split()
             if len(commands) == 0:
                 print("Invalid command")
+                continue
             if commands[0] == 'book':
                 if (len(commands) != 3):
                     print("Invalid command")
+                    continue
                 response = client.BookAppointment(AppointmentRequest(
                     name=commands[1],
                     service_code=commands[2]
@@ -28,6 +30,7 @@ def main():
             elif commands[0] == 'cancel':
                 if (len(commands) != 2):
                     print("Invalid command")
+                    continue
                 client.CancelAppointment(Appointment(
                     queue_id=commands[1]
                 ))
@@ -35,13 +38,15 @@ def main():
             elif commands[0] == 'check':
                 if (len(commands) != 2):
                     print("Invalid command")
+                    continue
                 response = client.CheckAppointment(Appointment(
                     queue_id=commands[1]
                 ))
                 print(response.response_message)
             elif commands[0] == 'exit':
                 break
-
+            else:
+                print("Invalid command")
 
 
 if __name__ == "__main__":
