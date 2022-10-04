@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message Null {}
+
+message AppointmentRequest {
+  string name = 1;
+  string service_code = 2;
+}
+
+message Appointment {
+  string queue_id = 2;
+}
+
+message CheckResponse {
+  string response_message = 1;
+}
+
+service AppointmentService {
+  rpc BookAppointment(AppointmentRequest) returns (Appointment);
+  rpc CancelAppointment(Appointment) returns (Null);
+  rpc CheckAppointment(Appointment) returns (CheckResponse);
+}
