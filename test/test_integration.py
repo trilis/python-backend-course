@@ -3,6 +3,7 @@ import pytest
 
 from src.app import app
 
+
 @pytest.mark.parametrize("name,code", [("Petya", "X")])
 def test_book_check(name, code):
     client = TestClient(app)
@@ -10,7 +11,8 @@ def test_book_check(name, code):
     response = client.get("/check/" + expected_id)
     assert response.status_code == 200
     assert response.json() == {
-        "message": "We can't find appointment with ID " + expected_id
+        "message": "We can't find appointment with ID "
+        + expected_id
         + ". Please check your ID or try to book an apointment again"
     }
     response = client.post("/book/?name=" + name + "&service_code=" + code)
@@ -19,7 +21,11 @@ def test_book_check(name, code):
     response = client.get("/check/" + expected_id)
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Dear " + name + ", your appointment " + expected_id + " is valid."
+        "message": "Dear "
+        + name
+        + ", your appointment "
+        + expected_id
+        + " is valid."
     }
 
 
@@ -35,7 +41,11 @@ def test_book_cancel(name, code):
     response = client.get("/check/" + expected_id)
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Dear " + name + ", your appointment " + expected_id + " is successfully cancelled."
+        "message": "Dear "
+        + name
+        + ", your appointment "
+        + expected_id
+        + " is successfully cancelled."
     }
 
 
@@ -52,8 +62,11 @@ def test_multi_cancel(name, code):
         response = client.get("/check/" + expected_id)
         assert response.status_code == 200
         assert response.json() == {
-            "message": "Dear " + name + ", your appointment "
-            + expected_id + " is successfully cancelled."
+            "message": "Dear "
+            + name
+            + ", your appointment "
+            + expected_id
+            + " is successfully cancelled."
         }
 
 
@@ -63,6 +76,7 @@ def test_check_unexisting(id):
     response = client.get("/check/" + id)
     assert response.status_code == 200
     assert response.json() == {
-        "message": "We can't find appointment with ID " + id
+        "message": "We can't find appointment with ID "
+        + id
         + ". Please check your ID or try to book an apointment again"
     }

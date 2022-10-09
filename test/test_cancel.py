@@ -7,6 +7,7 @@ from src.model import QueueModel
 def test_db():
     return Db({"X100": "Petya"}, dict(), dict())
 
+
 @pytest.mark.parametrize("name,id", [("Petya", "X100")])
 def test_cancel_simple(test_db, name, id):
     model = QueueModel(test_db)
@@ -14,6 +15,7 @@ def test_cancel_simple(test_db, name, id):
     assert not (test_db.has_appointment(id))
     assert test_db.has_cancelled(id)
     assert test_db.get_cancelled(id) == name
+
 
 @pytest.mark.parametrize("name,id", [("Petya", "X100")])
 def test_cancel_multiple(test_db, name, id):
@@ -23,6 +25,7 @@ def test_cancel_multiple(test_db, name, id):
         assert not (test_db.has_appointment(id))
         assert test_db.has_cancelled(id)
         assert test_db.get_cancelled(id) == name
+
 
 @pytest.mark.parametrize("id", ["Y5"])
 def test_cancel_nonexisting(test_db, id):

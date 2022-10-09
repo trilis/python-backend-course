@@ -9,6 +9,7 @@ from src.db import Db
 def test_db():
     return Db(dict(), dict(), dict())
 
+
 @pytest.mark.parametrize("name,code", [("Name", "K")])
 def test_book_simple(test_db, name, code):
     db = test_db
@@ -26,6 +27,7 @@ def test_book_many(test_db, name):
         id = model.book(name, i)
         assert db.has_appointment(id)
         assert db.get_appointment(id) == name
+
 
 @pytest.mark.parametrize("name,code", [("Name", "K")])
 def test_fresh_ids(test_db, name, code):
