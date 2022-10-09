@@ -8,24 +8,25 @@ from src.db import Db
 def test_model():
     return QueueModel(Db({"X1": "Petya"}, dict(), {"Y100": "Vanya"}))
 
+@pytest.mark.parametrize("name,id", [("Petya", "X1")])
+def test_check_ok(test_model, name, id):
+    message = test_model.check(id)
+    assert message == "Dear " + name + ", your appointment " + id + " is valid."
 
-def test_check_ok(test_model):
-    message = test_model.check("X1")
-    assert message == "Dear Petya, your appointment X1 is valid."
 
-
-def test_check_cancel(test_model):
-    message = test_model.check("Y100")
+@pytest.mark.parametrize("name,id", [("Vanya", "Y100")])
+def test_check_cancel(test_model, name, id):
+    message = test_model.check(id)
     assert (
         message
-        == "Dear Vanya, your appointment Y100 is successfully cancelled."
+        == "Dear " + name + ", your appointment " + id + " is successfully cancelled."
     )
 
-
-def test_check_fail(test_model):
-    message = test_model.check("Z42")
+@pytest.mark.parametrize("id", ["Z42"])
+def test_check_fail(test_model, id):
+    message = test_model.check(id)
     assert (
         message
-        == "We can't find appointment with ID Z42."
-        + "Please check your ID or try to book an apointment again"
+        == "We can't find appointment with ID " + id +
+        ". Please check your ID or try to book an apointment again"
     )

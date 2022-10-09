@@ -7,26 +7,26 @@ from src.model import QueueModel
 def test_db():
     return Db({"X100": "Petya"}, dict(), dict())
 
-
-def test_cancel_simple(test_db):
+@pytest.mark.parametrize("name,id", [("Petya", "X100")])
+def test_cancel_simple(test_db, name, id):
     model = QueueModel(test_db)
-    model.cancel("X100")
-    assert not (test_db.has_appointment("X100"))
-    assert test_db.has_cancelled("X100")
-    assert test_db.get_cancelled("X100") == "Petya"
+    model.cancel(id)
+    assert not (test_db.has_appointment(id))
+    assert test_db.has_cancelled(id)
+    assert test_db.get_cancelled(id) == name
 
-
-def test_cancel_multiple(test_db):
+@pytest.mark.parametrize("name,id", [("Petya", "X100")])
+def test_cancel_multiple(test_db, name, id):
     model = QueueModel(test_db)
     for _ in range(10):
-        model.cancel("X100")
-        assert not (test_db.has_appointment("X100"))
-        assert test_db.has_cancelled("X100")
-        assert test_db.get_cancelled("X100") == "Petya"
+        model.cancel(id)
+        assert not (test_db.has_appointment(id))
+        assert test_db.has_cancelled(id)
+        assert test_db.get_cancelled(id) == name
 
-
-def test_cancel_nonexisting(test_db):
+@pytest.mark.parametrize("id", ["Y5"])
+def test_cancel_nonexisting(test_db, id):
     model = QueueModel(test_db)
-    model.cancel("Y5")
-    assert not (test_db.has_appointment("Y5"))
-    assert not (test_db.has_cancelled("Y5"))
+    model.cancel(id)
+    assert not (test_db.has_appointment(id))
+    assert not (test_db.has_cancelled(id))
