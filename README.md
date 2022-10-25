@@ -34,3 +34,9 @@ poetry run uvicorn src.main:app
 ```
 poetry run python src/worker.py
 ```
+
+### Тестирование
+
+```
+poetry run pytest
+```
